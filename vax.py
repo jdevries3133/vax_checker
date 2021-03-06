@@ -63,8 +63,8 @@ def email(addr: str, avail: list):
             to=addr,
             subject='CVS Vaccine Available',
             message=(
-                ['Vaccine appointments are available now at the following locations:', '']
-                + avail
+                ['Vaccine appointments are available now at the following locations:']
+                + ['- ' + i for i in avail]
             )
         )
 
