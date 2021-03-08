@@ -15,8 +15,8 @@ from time import sleep
 
 import requests
 
-from common import email
-from settings import EMAIL_TO
+from .common import email
+from .settings import EMAIL_TO
 
 URLS = {
     'endpoint': (

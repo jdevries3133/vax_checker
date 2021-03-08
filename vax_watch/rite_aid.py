@@ -16,8 +16,8 @@ import logging
 
 import requests
 
-from common import email
-from settings import LOCATION_SEARCH_QUERY, MILES_RADIUS
+from .common import email
+from .settings import LOCATION_SEARCH_QUERY, MILES_RADIUS
 
 logger = logging.getLogger(__name__)
 
