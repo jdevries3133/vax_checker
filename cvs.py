@@ -10,11 +10,13 @@ on top of python's smtlib to send emails here. If you want to use this,
 you will need to add that bit yourself.
 """
 
-from typing import Union
+from typing import Union, List
 from time import sleep
+
 import requests
 
-from teacherHelper import Email
+from common import email
+from settings import EMAIL_TO
 
 URLS = {
     'endpoint': (
@@ -57,27 +59,18 @@ def available_appts(data) -> list:
         if l['status'].lower() != 'fully booked'
     ]
 
-def email(addr: str, avail: list):
-    with Email() as emlr:
-        emlr.send(
-            to=addr,
-            subject='CVS Vaccine Available',
-            message=(
-                ['Vaccine appointments are available now at the following locations:']
-                + ['- ' + i for i in avail]
+def check(email_to: Union[str, List[str]]):
+    data = get_data()
+    if data:
+        locs = available_appts(data)
+        if locs:
+            email(
+                EMAIL_TO,
+                locs,
+                'CVS'
             )
-        )
+            # success! Wait an hour as to not harrass subscribers
+            sleep(3600)
 
 if __name__ == '__main__':
-    while True:
-        data = get_data()
-        if data:
-            locs = available_appts(data)
-            if locs:
-                email(
-                    'jdevries3133@gmail.com',
-                    locs
-                )
-                # success! Wait an hour as to not harrass subscribers
-                sleep(3600)
-        sleep(POLL_INTERVAL)
+    check('jdevries3133@gmail.com')
